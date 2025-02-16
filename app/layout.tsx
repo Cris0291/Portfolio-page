@@ -1,16 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import NavBar from "./ui/NavBar";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -24,11 +15,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body>
+        <div className=" flex flex-col min-h-screen bg-zinc-900">
+          <NavBar />
+          <Button className="text-black bg-yellow-400 hover:text-white hover:bg-opacity-20  px-3 py-1 rounded-md text-sm transition duration-300 fixed top-4 right-10  z-50">
+            Contact Me
+          </Button>
+          {children}
+        </div>
       </body>
     </html>
   );
 }
+//bg-gradient-to-b from-black via-sky-400 to-gray-900
