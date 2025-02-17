@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import NavBar from "./ui/NavBar";
 import "./globals.css";
-import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,11 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className=" flex flex-col min-h-screen bg-zinc-900">
-          <NavBar />
-          <Button className="text-black bg-yellow-400 hover:text-white hover:bg-opacity-20  px-3 py-1 rounded-md text-sm transition duration-300 fixed top-4 right-10  z-50">
-            Contact Me
-          </Button>
+        <div className=" flex flex-col min-h-screen bg-gradient-to-b from-blue-100 to-red-100">
           {children}
         </div>
       </body>
