@@ -8,7 +8,7 @@ const NavBar = ({ setSection }: { setSection: (section: string) => void }) => {
       <div className="flex flex-col sm:flex-row justify-between items-center p-4 bg-transparent">
         <nav className="mb-4 sm:mb-0">
           <div className="flex flex-wrap justify-center sm:justify-start items-center gap-2">
-            {["Home", "About", "Projects", "Contact"].map((item) => (
+            {["Home", "Technologies", "Projects", "Contact"].map((item) => (
               <button
                 key={item}
                 className="text-black bg-transparent hover:text-white hover:bg-black px-3 py-1 rounded-md text-sm md:text-md transition duration-300"
