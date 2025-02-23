@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import type React from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ExternalLink, Github, ChevronLeft, ChevronRight } from "lucide-react";
 import {
   Carousel,
@@ -30,7 +30,8 @@ const projects: Project[] = [
     description: "A full-stack e-commerce solution with React and Node.js",
     imageUrl: "/placeholder.svg?height=300&width=400",
     technologies: ["React", "Node.js", "MongoDB", "Express"],
-    liveUrl: "https://example.com",
+    liveUrl:
+      "https://images.unsplash.com/photo-1739382120576-b1434e8bc4d3?q=80&w=1375&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     githubUrl: "https://github.com/yourusername/project1",
   },
   {
@@ -79,54 +80,46 @@ const ProjectCarousel: React.FC = () => {
   };
 
   return (
-    <section className="py-20 px-4 md:px-8 bg-gradient-to-b from-blue-100 to-red-100">
-      <motion.div
-        className="max-w-6xl mx-auto"
-        initial="hidden"
-        animate="visible"
-        variants={containerVariants}
-      >
-        <motion.h2
-          className="text-5xl font-bold text-center mb-16 text-gray-800 tracking-tight"
-          variants={itemVariants}
+    <section className="flex items-center justify-center min-h-screen w-full py-20 md:py-32 bg-black text-white overflow-hidden">
+      <div className="container mx-auto px-4">
+        <Carousel
+          opts={{
+            loop: true,
+          }}
+          className="w-full"
         >
-          My Projects
-        </motion.h2>
-        <motion.div
-          className="relative bg-white bg-opacity-50 backdrop-filter backdrop-blur-lg rounded-3xl shadow-2xl p-8 overflow-hidden"
-          variants={itemVariants}
-        >
-          <Carousel
-            opts={{
-              loop: true,
-            }}
-            className="w-full"
-          >
-            <CarouselContent>
+          <CarouselContent>
+            <AnimatePresence mode="wait">
               {projects.map((project) => (
-                <CarouselItem key={project.id}>
+                <CarouselItem
+                  key={project.id}
+                  className="flex items-center justify-center"
+                >
                   <motion.div
                     initial={{ opacity: 0, x: 100 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -100 }}
                     transition={{ duration: 0.5 }}
-                    className="grid md:grid-cols-2 gap-8 items-center"
+                    className="grid md:grid-cols-[2fr_1fr] gap-12 items-center max-w-10xl mx-auto"
                   >
                     <motion.div
-                      className="relative aspect-video rounded-2xl overflow-hidden shadow-lg"
-                      whileHover={{ scale: 1.05 }}
+                      className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl"
+                      whileHover={{ scale: 1.05, rotate: -1 }}
                       transition={{ duration: 0.3 }}
                     >
                       <Image
-                        src={project.imageUrl || "/placeholder.svg"}
+                        src={
+                          "https://images.unsplash.com/photo-1517964603305-11c0f6f66012?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        }
                         alt={project.title}
                         layout="fill"
                         objectFit="cover"
+                        className="transition-transform duration-300 hover:scale-110"
                       />
                     </motion.div>
-                    <div>
+                    <div className="space-y-6">
                       <motion.h3
-                        className="text-3xl font-semibold mb-4 text-gray-800"
+                        className="text-4xl font-bold mb-4 text-[--color-test]"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
@@ -134,7 +127,7 @@ const ProjectCarousel: React.FC = () => {
                         {project.title}
                       </motion.h3>
                       <motion.p
-                        className="text-gray-600 mb-6"
+                        className="text-gray-300 text-lg leading-relaxed"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3 }}
@@ -142,7 +135,7 @@ const ProjectCarousel: React.FC = () => {
                         {project.description}
                       </motion.p>
                       <motion.div
-                        className="flex flex-wrap gap-2 mb-6"
+                        className="flex flex-wrap gap-2"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.4 }}
@@ -150,7 +143,7 @@ const ProjectCarousel: React.FC = () => {
                         {project.technologies.map((tech, index) => (
                           <motion.span
                             key={tech}
-                            className="px-3 py-1 bg-gray-200 text-gray-700 rounded-full text-sm"
+                            className="px-3 py-1 bg-[--color-test] text-black rounded-full text-sm font-medium"
                             initial={{ opacity: 0, scale: 0.8 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ delay: 0.5 + index * 0.1 }}
@@ -168,7 +161,7 @@ const ProjectCarousel: React.FC = () => {
                         {project.liveUrl && (
                           <Button
                             asChild
-                            className="bg-blue-500 hover:bg-blue-600"
+                            className="bg-[--color-test] text-black hover:bg-white  px-16 py-6  rounded-md transition-all duration-300 ease-in-out transform hover:scale-105"
                           >
                             <motion.a
                               href={project.liveUrl}
@@ -186,7 +179,7 @@ const ProjectCarousel: React.FC = () => {
                           <Button
                             asChild
                             variant="outline"
-                            className="bg-gray-800 text-white hover:bg-gray-900 hover:text-white"
+                            className="bg-[--color-test] text-black hover:bg-white px-16 py-6 rounded-md transition-all duration-300 ease-in-out transform hover:scale-105"
                           >
                             <motion.a
                               href={project.githubUrl}
@@ -205,16 +198,16 @@ const ProjectCarousel: React.FC = () => {
                   </motion.div>
                 </CarouselItem>
               ))}
-            </CarouselContent>
-            <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-75">
-              <ChevronLeft className="h-6 w-6" />
-            </CarouselPrevious>
-            <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-75">
-              <ChevronRight className="h-6 w-6" />
-            </CarouselNext>
-          </Carousel>
-        </motion.div>
-      </motion.div>
+            </AnimatePresence>
+          </CarouselContent>
+          <CarouselPrevious className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 bg-[--color-test] bg-opacity-50 hover:bg-opacity-75 text-[--color-test] rounded-full p-3 transition-all duration-300 ease-in-out">
+            <ChevronLeft className="h-6 w-6" />
+          </CarouselPrevious>
+          <CarouselNext className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 bg-blue-600 bg-opacity-50 hover:bg-opacity-75 text-[--color-test] rounded-full p-3 transition-all duration-300 ease-in-out">
+            <ChevronRight className="h-6 w-6" />
+          </CarouselNext>
+        </Carousel>
+      </div>
     </section>
   );
 };
