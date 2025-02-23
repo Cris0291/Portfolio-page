@@ -6,9 +6,9 @@ interface VideoBackgroundProps {
 
 const VideoBackground: React.FC<VideoBackgroundProps> = ({ videoSrc }) => {
   return (
-    <div className="fixed top-0 left-0 w-full h-full overflow-hidden z-[-1]">
+    <div className="absolute inset-0  w-full h-full overflow-hidden z-[-1]">
       <video
-        className="absolute min-w-full min-h-full object-cover"
+        className=" min-w-full min-h-full object-cover"
         autoPlay
         loop
         muted
