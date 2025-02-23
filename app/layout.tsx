@@ -14,9 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className=" flex flex-col min-h-screen bg-gradient-to-b from-blue-100 to-red-100">
-          {children}
-        </div>
+        <main className=" flex flex-col min-h-screen">{children}</main>
       </body>
     </html>
   );
