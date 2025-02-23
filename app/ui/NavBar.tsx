@@ -1,48 +1,107 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Palette } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+const colors = [
+  { name: "Teal", value: "#6fdddd" },
+  { name: "Beige", value: "#f5f5dc" },
+  { name: "Orange", value: "#ec4e39" },
+  { name: "Yellow", value: "#f7b32b" },
+  { name: "Purple", value: "#a855f7" },
+  { name: "Blue", value: "#3b82f6" },
+  { name: "Red", value: "#8b0000" },
+  { name: " Dark Gray", value: "#afa18f" },
+  { name: "Green", value: "#16a34a" },
+  { name: "Pink", value: "#db2777" },
+];
 
 const NavBar = ({ setSection }: { setSection: (section: string) => void }) => {
+  const [currentColor, setCurrentColor] = useState(colors[0]);
+
+  const changeColor = (color: (typeof colors)[0]) => {
+    setCurrentColor(color);
+    document.documentElement.style.setProperty("--color-test", color.value);
+  };
+
   return (
-    <div className="w-3/4 mx-auto">
-      <div className="flex flex-col sm:flex-row justify-between items-center p-4 bg-transparent">
-        <nav className="mb-4 sm:mb-0">
-          <div className="flex flex-wrap justify-center sm:justify-start items-center gap-2">
-            {["Home", "Technologies", "Projects", "Contact"].map((item) => (
-              <button
-                key={item}
-                className="text-black bg-transparent hover:text-white hover:bg-black px-3 py-1 rounded-md text-sm md:text-md transition duration-300"
-                onClick={() => setSection(item)}
+    <div className="w-full bg-gray-900 text-white sticky top-0 z-50">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+        <div className="flex justify-between items-center py-4">
+          <nav>
+            <div className="flex items-center space-x-4">
+              {["Home", "Technologies", "Projects", "Contact"].map((item) => (
+                <Button
+                  key={item}
+                  variant="ghost"
+                  className="text-[--color-test]  hover:bg-white hover:text-black px-3 py-2 rounded-md text-sm font-medium transition duration-300"
+                  onClick={() => setSection(item)}
+                >
+                  {item}
+                </Button>
+              ))}
+            </div>
+          </nav>
+          <div className="flex items-center space-x-6">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button className="bg-gray-800 text-[--color-test] hover:bg-white hover:text-black transition duration-300">
+                  <Palette className="h-5 w-5 mr-2" />
+                  Theme
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56">
+                {colors.map((color) => (
+                  <DropdownMenuItem
+                    key={color.name}
+                    onClick={() => changeColor(color)}
+                    className="flex items-center justify-between bg-gray-900 text-white"
+                  >
+                    <span>{color.name}</span>
+                    <div
+                      className="w-6 h-6 rounded-full"
+                      style={{ backgroundColor: color.value }}
+                    />
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <div className="flex items-center space-x-4">
+              <Link
+                href="https://github.com/yourusername"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                {item}
-              </button>
-            ))}
+                <FaGithub className="text-[--color-test] hover:text-white text-2xl transition duration-300" />
+              </Link>
+              <Link
+                href="https://linkedin.com/in/yourusername"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaLinkedin className="text-[--color-test] hover:text-white text-2xl transition duration-300" />
+              </Link>
+              <Link
+                href="https://twitter.com/yourusername"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaTwitter className="text-[--color-test] hover:text-white text-2xl transition duration-300" />
+              </Link>
+            </div>
           </div>
-        </nav>
-        <div className="flex items-center space-x-4">
-          <Link
-            href="https://github.com/yourusername"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <FaGithub className="text-black hover:text-gray-700 text-2xl transition duration-300" />
-          </Link>
-          <Link
-            href="https://linkedin.com/in/yourusername"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <FaLinkedin className="text-black hover:text-gray-700 text-2xl transition duration-300" />
-          </Link>
-          <Link
-            href="https://twitter.com/yourusername"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <FaTwitter className="text-black hover:text-gray-700 text-2xl transition duration-300" />
-          </Link>
         </div>
       </div>
+      <div className="h-1 bg-primary"></div>
     </div>
   );
 };
