@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
-import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
-import Link from "next/link";
+import { useState, useEffect } from "react";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import { Button } from "@/components/ui/button";
 import { Palette } from "lucide-react";
 import {
@@ -11,6 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Link from "next/link";
 
 const colors = [
   { name: "Teal", value: "#6fdddd" },
@@ -25,7 +26,11 @@ const colors = [
   { name: "Pink", value: "#db2777" },
 ];
 
-const NavBar = ({ setSection }: { setSection: (section: string) => void }) => {
+const NavBar = ({
+  scrollToSection,
+}: {
+  scrollToSection: (section: string) => void;
+}) => {
   const [currentColor, setCurrentColor] = useState(colors[0]);
 
   const changeColor = (color: (typeof colors)[0]) => {
@@ -39,16 +44,18 @@ const NavBar = ({ setSection }: { setSection: (section: string) => void }) => {
         <div className="flex justify-between items-center py-4">
           <nav>
             <div className="flex items-center space-x-4">
-              {["Home", "Technologies", "Projects", "Contact"].map((item) => (
-                <Button
-                  key={item}
-                  variant="ghost"
-                  className="text-[--color-test]  hover:bg-white hover:text-black px-3 py-2 rounded-md text-sm font-medium transition duration-300"
-                  onClick={() => setSection(item)}
-                >
-                  {item}
-                </Button>
-              ))}
+              {["Home", "About", "Technologies", "Projects", "Contact"].map(
+                (item) => (
+                  <Button
+                    key={item}
+                    variant="ghost"
+                    className={`text-[--color-test] hover:bg-white hover:text-black px-3 py-2 rounded-md text-sm font-medium transition duration-300`}
+                    onClick={() => scrollToSection(item.toLowerCase())}
+                  >
+                    {item}
+                  </Button>
+                )
+              )}
             </div>
           </nav>
           <div className="flex items-center space-x-6">
@@ -77,25 +84,25 @@ const NavBar = ({ setSection }: { setSection: (section: string) => void }) => {
             </DropdownMenu>
             <div className="flex items-center space-x-4">
               <Link
-                href="https://github.com/yourusername"
+                href="https://github.com/Cris0291"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <FaGithub className="text-[--color-test] hover:text-white text-2xl transition duration-300" />
               </Link>
               <Link
-                href="https://linkedin.com/in/yourusername"
+                href="https://www.linkedin.com/in/cristian-blanco-64142a191/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <FaLinkedin className="text-[--color-test] hover:text-white text-2xl transition duration-300" />
               </Link>
               <Link
-                href="https://twitter.com/yourusername"
+                href="https://x.com/cbg_070"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <FaTwitter className="text-[--color-test] hover:text-white text-2xl transition duration-300" />
+                <FaXTwitter className="text-[--color-test] hover:text-white text-2xl transition duration-300" />
               </Link>
             </div>
           </div>
