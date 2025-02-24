@@ -1,26 +1,28 @@
 "use client";
 
 import NavBar from "./ui/NavBar";
-import PortfolioWrapper from "./ui/PortfolioWrapper";
-import { useState } from "react";
-import useMousePosition from "./utils/useMousePosition";
+import { useEffect, useState } from "react";
 import HeroWithMask from "./ui/HeroWithMak";
 import Footer from "./ui/Footer";
 import EmailForm from "./ui/EmailForm";
-import ProjectSection from "./ui/ProjectSection";
-import ToolsSection from "./ui/ToolsSections";
 import ProjectCarousel from "./ui/ProjectCarousel";
 import AboutSection from "./ui/AboutSection";
+import TechnologyGrid from "./ui/TechnologyGrid";
 
 export default function PortfolioPage() {
-  const [section, setSection] = useState("Home");
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   return (
     <div className="flex-1">
-      <NavBar setSection={setSection} />
+      <NavBar scrollToSection={scrollToSection} />
       <HeroWithMask />
-      <AboutSection />
-      <ToolsSection />
+      <AboutSection scrollToSection={scrollToSection} />
+      <TechnologyGrid />
       <ProjectCarousel />
       <EmailForm />
 
