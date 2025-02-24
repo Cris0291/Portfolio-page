@@ -3,8 +3,13 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
-export default function AboutSection() {
+export default function AboutSection({
+  scrollToSection,
+}: {
+  scrollToSection: (section: string) => void;
+}) {
   const [isHovered, setIsHovered] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const sectionRef = useRef<HTMLElement>(null);
@@ -30,7 +35,8 @@ export default function AboutSection() {
   const size = isHovered ? 400 : 40;
   return (
     <section
-      className="relative h-screen w-full flex items-center justify-center"
+      id="about"
+      className="relative h-screen w-full flex items-center justify-center scroll-smooth"
       ref={sectionRef}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
@@ -50,18 +56,18 @@ export default function AboutSection() {
           Welcome to My Portfolio
         </h1>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link
-            href="/path-to-your-cv.pdf"
-            className="bg-white text-black font-semibold py-2 px-6 rounded-full hover:bg-opacity-90 transition duration-300"
+          <Button
+            asChild
+            className="bg-white text-black font-semibold py-7 px-6 rounded-full hover:bg-opacity-90 transition duration-300"
           >
-            Download CV
-          </Link>
-          <Link
-            href="mailto:your-email@example.com"
-            className="bg-transparent border-2 border-white text-white font-semibold py-2 px-6 rounded-full hover:bg-white hover:text-black transition duration-300"
+            <Link href="/dtest.pdf">Download CV</Link>
+          </Button>
+          <Button
+            className="bg-transparent border-2 border-white text-white font-semibold py-7 px-6 rounded-full hover:bg-white hover:text-black transition duration-300"
+            onClick={() => scrollToSection("contact")}
           >
             Send an Email
-          </Link>
+          </Button>
         </div>
       </div>
       <motion.div
