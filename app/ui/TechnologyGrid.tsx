@@ -89,7 +89,8 @@ const TechnologyGrid: React.FC = () => {
 
   return (
     <section
-      className=" w-full relative py-20 px-4 sm:px-6 lg:px-8 bg-[--color-test] "
+      id="technologies"
+      className=" w-full relative py-20 px-4 sm:px-6 lg:px-8 bg-[--color-test] scroll-smooth"
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
