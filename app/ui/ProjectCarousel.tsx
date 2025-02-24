@@ -80,7 +80,10 @@ const ProjectCarousel: React.FC = () => {
   };
 
   return (
-    <section className="flex items-center justify-center min-h-screen w-full py-20 md:py-32 bg-black text-white overflow-hidden">
+    <section
+      id="projects"
+      className="flex items-center justify-center min-h-screen w-full py-20 md:py-32 bg-black text-white overflow-hidden scroll-smooth"
+    >
       <div className="container mx-auto px-4">
         <Carousel
           opts={{
