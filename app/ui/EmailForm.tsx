@@ -1,14 +1,34 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { Send, Mail } from "lucide-react";
+import { Send, Mail, AlertCircle } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import Image from "next/image";
 import VideoBackground from "./VideoBackground";
 import { cn } from "@/lib/utils";
+import { useForm, SubmitHandler } from "react-hook-form";
+import emailjs from "@emailjs/browser";
+
+type Inputs = {
+  name: string;
+  email: string;
+  message: string;
+  subject: string;
+};
 
 const EmailForm: React.FC = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const sectionRef = useRef<HTMLDivElement>(null);
+  const form = useRef<HTMLFormElement>(null);
+  const [submittedErrors, setSubmittedErrors] = useState<
+    (string | undefined)[]
+  >([]);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>();
 
   const handleMouseMove = (event: React.MouseEvent<HTMLElement>) => {
     if (sectionRef.current) {
@@ -29,24 +49,34 @@ const EmailForm: React.FC = () => {
   }, []);
 
   const size = isHovered ? 400 : 40;
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prevState) => ({ ...prevState, [name]: value }));
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    emailjs
+      .sendForm(
+        process.env.NEXT_PUBLIC_SERVICE_ID ?? "",
+        process.env.NEXT_PUBLIC_TEMPLATE_ID ?? "",
+        form.current ?? "",
+        {
+          publicKey: process.env.NEXT_PUBLIC_PUBLIC_KEY,
+        }
+      )
+      .then(
+        () => {
+          console.log(`${process.env.NEXT_PUBLIC_SERVICE_ID}`);
+        },
+        (error) => {
+          console.log("FAILED...", error.text);
+        }
+      );
   };
+  const onError = () => {
+    const newErrors: (string | undefined)[] = [];
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log("Form submitted:", formData);
-    setFormData({ name: "", email: "", subject: "", message: "" });
+    const values = Object.values(errors);
+
+    values.forEach((value) => newErrors.push(value.message));
+
+    setSubmittedErrors(newErrors);
   };
 
   const formAnimation = {
@@ -73,7 +103,10 @@ const EmailForm: React.FC = () => {
   };
 
   return (
-    <section className="relative w-full py-5 md:py-10 lg:py-15 xl:py-20 overflow-hidden">
+    <section
+      id="contact"
+      className="relative w-full py-5 md:py-10 lg:py-15 xl:py-20 overflow-hidden scroll-smooth"
+    >
       <VideoBackground videoSrc="/sea.mp4" />
       <div className="relative z-10 mx-auto p-4 min-h-screen flex items-center justify-center">
         <div className="bg-white rounded-lg shadow-2xl overflow-hidden w-full sm:max-w-xl md:max-w-4xl">
@@ -85,30 +118,67 @@ const EmailForm: React.FC = () => {
               variants={formAnimation}
             >
               <h2 className="text-3xl font-bold text-black mb-6">Contact Me</h2>
-              <form onSubmit={handleSubmit}>
-                {["name", "email", "subject"].map((field) => (
-                  <motion.div
-                    key={field}
-                    className="mb-4"
-                    variants={inputAnimation}
+              <form ref={form} onSubmit={handleSubmit(onSubmit, onError)}>
+                <motion.div className="mb-4" variants={inputAnimation}>
+                  <label
+                    htmlFor="name"
+                    className="block text-[--color-test] text-sm font-semibold mb-2 capitalize"
                   >
-                    <label
-                      htmlFor={field}
-                      className="block text-[--color-test] text-sm font-semibold mb-2 capitalize"
-                    >
-                      {field}
-                    </label>
-                    <input
-                      type={field === "email" ? "email" : "text"}
-                      id={field}
-                      name={field}
-                      value={formData[field as keyof typeof formData]}
-                      onChange={handleChange}
-                      className="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:border-blue-500 transition duration-300"
-                      required
-                    />
-                  </motion.div>
-                ))}
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    {...register("name", {
+                      required: "Name is required",
+                      minLength: {
+                        value: 2,
+                        message: "Name must be at least 1 characters",
+                      },
+                      maxLength: {
+                        value: 10,
+                        message: "Name must be at least 8 characters",
+                      },
+                    })}
+                    className="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:border-blue-500 transition duration-300"
+                  />
+                </motion.div>
+                <motion.div className="mb-4" variants={inputAnimation}>
+                  <label
+                    htmlFor="email"
+                    className="block text-[--color-test] text-sm font-semibold mb-2 capitalize"
+                  >
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    {...register("email", {
+                      required: "Email is required",
+                      pattern: {
+                        value: /\S+@\S+\.\S+/,
+                        message: "Email is invalid",
+                      },
+                    })}
+                    className="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:border-blue-500 transition duration-300"
+                  />
+                </motion.div>
+                <motion.div className="mb-4" variants={inputAnimation}>
+                  <label
+                    htmlFor="subject"
+                    className="block text-[--color-test] text-sm font-semibold mb-2 capitalize"
+                  >
+                    Subject
+                  </label>
+                  <input
+                    type="text"
+                    id="subject"
+                    {...register("subject", {
+                      required: "Subject is required",
+                    })}
+                    className="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:border-blue-500 transition duration-300"
+                  />
+                </motion.div>
                 <motion.div className="mb-6" variants={inputAnimation}>
                   <label
                     htmlFor="message"
@@ -118,14 +188,23 @@ const EmailForm: React.FC = () => {
                   </label>
                   <textarea
                     id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
+                    {...register("message", {
+                      required: "Message is required",
+                    })}
                     className="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:border-blue-500 transition duration-300 h-32"
-                    required
                   ></textarea>
                 </motion.div>
                 <motion.div variants={inputAnimation}>
+                  {submittedErrors.length > 0 && (
+                    <Alert variant="destructive">
+                      <AlertCircle className="h-4 w-4" />
+                      <AlertDescription>
+                        {submittedErrors.map((error, index) => (
+                          <p key={index}>{error}</p>
+                        ))}
+                      </AlertDescription>
+                    </Alert>
+                  )}
                   <button
                     type="submit"
                     className="bg-[--color-test] hover:bg-black text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-300 flex items-center"
