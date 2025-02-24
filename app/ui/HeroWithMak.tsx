@@ -33,8 +33,9 @@ export default function HeroSection() {
 
   return (
     <section
+      id="home"
       ref={sectionRef}
-      className="relative w-full py-20 md:py-32 bg-black text-white overflow-hidden"
+      className="relative w-full py-20 md:py-32 bg-black text-white overflow-hidden scroll-smooth"
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
