@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { Button } from "@/components/ui/button";
-import { Palette } from "lucide-react";
+import { Palette, Menu, X } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -32,17 +32,27 @@ const NavBar = ({
   scrollToSection: (section: string) => void;
 }) => {
   const [currentColor, setCurrentColor] = useState(colors[0]);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const changeColor = (color: (typeof colors)[0]) => {
     setCurrentColor(color);
     document.documentElement.style.setProperty("--color-test", color.value);
   };
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const handleNavClick = (section: string) => {
+    scrollToSection(section);
+    setIsMobileMenuOpen(false);
+  };
+
   return (
     <div className="w-full bg-gray-900 text-white sticky top-0 z-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         <div className="flex justify-between items-center py-4">
-          <nav>
+          <nav className="hidden md:block">
             <div className="flex items-center space-x-4">
               {["Home", "About", "Technologies", "Projects", "Contact"].map(
                 (item) => (
@@ -82,7 +92,7 @@ const NavBar = ({
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
-            <div className="flex items-center space-x-4">
+            <div className="hidden md:flex items-center space-x-4">
               <Link
                 href="https://github.com/Cris0291"
                 target="_blank"
@@ -105,9 +115,56 @@ const NavBar = ({
                 <FaXTwitter className="text-[--color-test] hover:text-white text-2xl transition duration-300" />
               </Link>
             </div>
+            <Button
+              className="md:hidden text-[--color-test] hover:bg-white hover:text-black"
+              onClick={toggleMobileMenu}
+            >
+              {isMobileMenuOpen ? <X /> : <Menu />}
+            </Button>
           </div>
         </div>
       </div>
+      {isMobileMenuOpen && (
+        <div className="md:hidden bg-gray-800">
+          <div className="px-2 pt-2 pb-3 space-y-1">
+            {["Home", "About", "Technologies", "Projects", "Contact"].map(
+              (item) => (
+                <Button
+                  key={item}
+                  variant="ghost"
+                  className="block text-[--color-test] hover:bg-white hover:text-black px-3 py-2 rounded-md text-base font-medium w-full text-left"
+                  onClick={() => handleNavClick(item.toLowerCase())}
+                >
+                  {item}
+                </Button>
+              )
+            )}
+          </div>
+          <div className="px-4 py-3 flex justify-center space-x-4">
+            <Link
+              href="https://github.com/Cris0291"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaGithub className="text-[--color-test] hover:text-white text-2xl transition duration-300" />
+            </Link>
+            <Link
+              href="https://www.linkedin.com/in/cristian-blanco-64142a191/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaLinkedin className="text-[--color-test] hover:text-white text-2xl transition duration-300" />
+            </Link>
+            <Link
+              href="https://x.com/cbg_070"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaXTwitter className="text-[--color-test] hover:text-white text-2xl transition duration-300" />
+            </Link>
+          </div>
+        </div>
+      )}
       <div className="h-1 bg-primary"></div>
     </div>
   );

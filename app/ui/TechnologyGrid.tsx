@@ -1,7 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+"use client";
+
+import type React from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import {
-  SiSharp,
   SiCplusplus,
   SiTypescript,
   SiDotnet,
@@ -11,7 +13,6 @@ import { FcCopyright } from "react-icons/fc";
 import { DiDotnet, DiGit, DiDatabase } from "react-icons/di";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import VideoBackground from "./VideoBackground";
 
 const technologies = [
   { name: "C#", icon: FcCopyright, color: "#178600" },
@@ -29,11 +30,11 @@ const TechnologyCard: React.FC<{
   icon: React.ElementType;
   color: string;
 }> = ({ name, icon: Icon, color }) => (
-  <div className="bg-black bg-opacity-20 backdrop-filter backdrop-blur-lg rounded-xl p-6 flex flex-col items-center justify-center transition-all duration-300 hover:shadow-lg hover:shadow-indigo-300/20 group">
-    <div className="bg-white   p-4 rounded-full mb-4 transition-colors duration-300 group-hover:bg-opacity-50">
-      <Icon className="text-5xl" style={{ color }} />
+  <div className="bg-black bg-opacity-20 backdrop-filter backdrop-blur-lg rounded-xl p-4 sm:p-6 flex flex-col items-center justify-center transition-all duration-300 hover:shadow-lg hover:shadow-indigo-300/20 group">
+    <div className="bg-white p-3 sm:p-4 rounded-full mb-3 sm:mb-4 transition-colors duration-300 group-hover:bg-opacity-50">
+      <Icon className="text-3xl sm:text-4xl md:text-5xl" style={{ color }} />
     </div>
-    <span className="text-lg font-medium text-gray-800 text-center">
+    <span className="text-sm sm:text-base md:text-lg font-medium text-gray-800 text-center">
       {name}
     </span>
   </div>
@@ -42,6 +43,7 @@ const TechnologyCard: React.FC<{
 const TechnologyGrid: React.FC = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isMobile, setIsMobile] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
   const handleMouseMove = (event: React.MouseEvent<HTMLElement>) => {
@@ -57,8 +59,17 @@ const TechnologyGrid: React.FC = () => {
   useEffect(() => {
     const handleMouseLeave = () => setIsHovered(false);
     document.addEventListener("mouseleave", handleMouseLeave);
+
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768); // Adjust this breakpoint as needed
+    };
+
+    handleResize(); // Set initial state
+    window.addEventListener("resize", handleResize);
+
     return () => {
       document.removeEventListener("mouseleave", handleMouseLeave);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -90,10 +101,10 @@ const TechnologyGrid: React.FC = () => {
   return (
     <section
       id="technologies"
-      className=" w-full relative py-20 px-4 sm:px-6 lg:px-8 bg-[--color-test] scroll-smooth"
+      className="w-full relative py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-[--color-test] scroll-smooth"
       onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={() => !isMobile && setIsHovered(true)}
+      onMouseLeave={() => !isMobile && setIsHovered(false)}
       ref={sectionRef}
     >
       <div className="container max-w-6xl mx-auto">
@@ -103,18 +114,21 @@ const TechnologyGrid: React.FC = () => {
           variants={containerVariants}
         >
           <motion.h2
-            className="text-5xl font-bold text-center mb-8 text-white"
+            className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-6 sm:mb-8 text-white"
             variants={itemVariants}
           >
             Essential Tools I Use
           </motion.h2>
-          <motion.div className="text-center mb-12" variants={itemVariants}>
-            <p className="text-xl text-white">
+          <motion.div
+            className="text-center mb-8 sm:mb-12"
+            variants={itemVariants}
+          >
+            <p className="text-base sm:text-lg md:text-xl text-white">
               Discover the technologies I leverage to create amazing apps
             </p>
           </motion.div>
           <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
+            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8"
             variants={containerVariants}
           >
             {technologies.map((tech) => (
@@ -129,28 +143,31 @@ const TechnologyGrid: React.FC = () => {
           </motion.div>
         </motion.div>
       </div>
-      <motion.div
-        className={cn(
-          "mask",
-          "absolute inset-0 pointer-events-none",
-          "bg-[--color-test]"
-        )}
-        animate={{
-          WebkitMaskPosition: `${mousePosition.x - size / 2}px ${
-            mousePosition.y - size / 2
-          }px`,
-          WebkitMaskSize: `${size}px`,
-        }}
-        transition={{ type: "tween", ease: "backOut", duration: 0.2 }}
-      >
-        <Image
-          src="/colors1.jpg"
-          alt="Background"
-          layout="fill"
-          objectFit="cover"
-          quality={100}
-        />
-      </motion.div>
+      {!isMobile && (
+        <motion.div
+          className={cn(
+            "mask",
+            "absolute inset-0 pointer-events-none",
+            "bg-[--color-test]",
+            "hidden md:block" // Hide on mobile and small screens
+          )}
+          animate={{
+            WebkitMaskPosition: `${mousePosition.x - size / 2}px ${
+              mousePosition.y - size / 2
+            }px`,
+            WebkitMaskSize: `${size}px`,
+          }}
+          transition={{ type: "tween", ease: "backOut", duration: 0.2 }}
+        >
+          <Image
+            src="/colors1.jpg"
+            alt="Background"
+            layout="fill"
+            objectFit="cover"
+            quality={100}
+          />
+        </motion.div>
+      )}
     </section>
   );
 };

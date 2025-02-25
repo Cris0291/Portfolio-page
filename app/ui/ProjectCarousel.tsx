@@ -1,6 +1,8 @@
 "use client";
 
 import type React from "react";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ExternalLink, Github, ChevronLeft, ChevronRight } from "lucide-react";
@@ -12,6 +14,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
+import VideoBackground from "./VideoBackground";
 
 interface Project {
   id: number;
@@ -21,76 +24,82 @@ interface Project {
   technologies: string[];
   liveUrl?: string;
   githubUrl?: string;
+  comingSoon: boolean;
 }
 
 const projects: Project[] = [
   {
     id: 1,
     title: "E-commerce Platform",
-    description: "A full-stack e-commerce solution with React and Node.js",
-    imageUrl: "/placeholder.svg?height=300&width=400",
-    technologies: ["React", "Node.js", "MongoDB", "Express"],
-    liveUrl:
-      "https://images.unsplash.com/photo-1739382120576-b1434e8bc4d3?q=80&w=1375&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    githubUrl: "https://github.com/yourusername/project1",
+    description:
+      "A full-stack e-commerce solution featuring clean architecture with ASP.Net Core and React",
+    imageUrl:
+      "https://images.unsplash.com/photo-1517964603305-11c0f6f66012?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    technologies: ["ASP.Net Core", "Entity Framework", "SQL", "React"],
+    liveUrl: "https://example.com",
+    githubUrl: "https://github.com/Cris0291/RunApp-Eshop",
+    comingSoon: false,
   },
   {
     id: 2,
-    title: "Weather App",
-    description: "Real-time weather forecasting using OpenWeatherMap API",
-    imageUrl: "/placeholder.svg?height=300&width=400",
-    technologies: ["React", "OpenWeatherMap API", "Tailwind CSS"],
+    title: "Tetris Game",
+    description: "A classic game made with c++ and raylib",
+    imageUrl:
+      "https://images.unsplash.com/photo-1517964603305-11c0f6f66012?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    technologies: ["C++", "Raylib"],
     liveUrl: "https://example.com",
-    githubUrl: "https://github.com/yourusername/project2",
+    githubUrl: "https://github.com/Cris0291/Tetris-Game-Cpp",
+    comingSoon: false,
   },
   {
     id: 3,
-    title: "Task Management System",
+    title: "Ai Task Management System",
     description:
-      "A Kanban-style project management tool built with React and Firebase",
-    imageUrl: "/placeholder.svg?height=300&width=400",
-    technologies: ["React", "Firebase", "Material-UI"],
+      "A modular monolith project management tool built with ASP.Net Core and React",
+    imageUrl:
+      "https://images.unsplash.com/photo-1517964603305-11c0f6f66012?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    technologies: ["ASP.Net Core", "Entity Framework", "SQL", "React"],
     liveUrl: "https://example.com",
     githubUrl: "https://github.com/yourusername/project3",
+    comingSoon: true,
+  },
+  {
+    id: 4,
+    title: "Json Parser",
+    description: "A josn parser project in c++",
+    imageUrl:
+      "https://images.unsplash.com/photo-1517964603305-11c0f6f66012?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    technologies: ["C++"],
+    liveUrl: "https://example.com",
+    githubUrl: "https://github.com/yourusername/project3",
+    comingSoon: true,
   },
 ];
 
 const ProjectCarousel: React.FC = () => {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
+  const [isMobile, setIsMobile] = useState(false);
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 24,
-      },
-    },
-  };
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <section
       id="projects"
-      className="flex items-center justify-center min-h-screen w-full py-20 md:py-32 bg-black text-white overflow-hidden scroll-smooth"
+      className="flex items-center justify-center min-h-screen w-full py-12 sm:py-16 md:py-20 lg:py-32 text-white overflow-hidden scroll-smooth relative"
     >
+      <VideoBackground videoSrc="/coding.mp4" />
       <div className="container mx-auto px-4">
-        <Carousel
-          opts={{
-            loop: true,
-          }}
-          className="w-full"
-        >
+        <Carousel opts={{ loop: true }} className="w-full">
           <CarouselContent>
             <AnimatePresence mode="wait">
               {projects.map((project) => (
@@ -103,7 +112,7 @@ const ProjectCarousel: React.FC = () => {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -100 }}
                     transition={{ duration: 0.5 }}
-                    className="grid md:grid-cols-[2fr_1fr] gap-12 items-center max-w-10xl mx-auto"
+                    className="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-6 md:gap-12 items-center max-w-6xl mx-auto"
                   >
                     <motion.div
                       className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl"
@@ -111,18 +120,16 @@ const ProjectCarousel: React.FC = () => {
                       transition={{ duration: 0.3 }}
                     >
                       <Image
-                        src={
-                          "https://images.unsplash.com/photo-1517964603305-11c0f6f66012?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                        }
+                        src={project.imageUrl}
                         alt={project.title}
                         layout="fill"
                         objectFit="cover"
                         className="transition-transform duration-300 hover:scale-110"
                       />
                     </motion.div>
-                    <div className="space-y-6">
+                    <div className="space-y-4 md:space-y-6">
                       <motion.h3
-                        className="text-4xl font-bold mb-4 text-[--color-test]"
+                        className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 md:mb-4 text-[--color-test]"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
@@ -130,7 +137,7 @@ const ProjectCarousel: React.FC = () => {
                         {project.title}
                       </motion.h3>
                       <motion.p
-                        className="text-gray-300 text-lg leading-relaxed"
+                        className="text-gray-300 text-base md:text-lg leading-relaxed"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3 }}
@@ -146,7 +153,7 @@ const ProjectCarousel: React.FC = () => {
                         {project.technologies.map((tech, index) => (
                           <motion.span
                             key={tech}
-                            className="px-3 py-1 bg-[--color-test] text-black rounded-full text-sm font-medium"
+                            className="px-2 py-1 bg-[--color-test] text-black rounded-full text-xs md:text-sm font-medium"
                             initial={{ opacity: 0, scale: 0.8 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ delay: 0.5 + index * 0.1 }}
@@ -156,7 +163,7 @@ const ProjectCarousel: React.FC = () => {
                         ))}
                       </motion.div>
                       <motion.div
-                        className="flex gap-4"
+                        className="flex flex-col sm:flex-row gap-4"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.6 }}
@@ -164,7 +171,7 @@ const ProjectCarousel: React.FC = () => {
                         {project.liveUrl && (
                           <Button
                             asChild
-                            className="bg-[--color-test] text-black hover:bg-white  px-16 py-6  rounded-md transition-all duration-300 ease-in-out transform hover:scale-105"
+                            className="bg-[--color-test] text-black hover:bg-white px-4 sm:px-6 py-2 sm:py-3 rounded-md transition-all duration-300 ease-in-out transform hover:scale-105 w-full sm:w-auto text-sm sm:text-base"
                           >
                             <motion.a
                               href={project.liveUrl}
@@ -173,8 +180,11 @@ const ProjectCarousel: React.FC = () => {
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
                             >
-                              <ExternalLink size={18} className="mr-2" />
-                              Live Demo
+                              <ExternalLink
+                                size={16}
+                                className="mr-2 inline-block"
+                              />
+                              <span className="inline-block">Live Demo</span>
                             </motion.a>
                           </Button>
                         )}
@@ -182,7 +192,7 @@ const ProjectCarousel: React.FC = () => {
                           <Button
                             asChild
                             variant="outline"
-                            className="bg-[--color-test] text-black hover:bg-white px-16 py-6 rounded-md transition-all duration-300 ease-in-out transform hover:scale-105"
+                            className="bg-[--color-test] text-black hover:bg-white px-4 sm:px-6 py-2 sm:py-3 rounded-md transition-all duration-300 ease-in-out transform hover:scale-105 w-full sm:w-auto text-sm sm:text-base"
                           >
                             <motion.a
                               href={project.githubUrl}
@@ -191,8 +201,8 @@ const ProjectCarousel: React.FC = () => {
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
                             >
-                              <Github size={18} className="mr-2" />
-                              View Code
+                              <Github size={16} className="mr-2 inline-block" />
+                              <span className="inline-block">View Code</span>
                             </motion.a>
                           </Button>
                         )}
@@ -203,11 +213,11 @@ const ProjectCarousel: React.FC = () => {
               ))}
             </AnimatePresence>
           </CarouselContent>
-          <CarouselPrevious className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 bg-[--color-test] bg-opacity-50 hover:bg-opacity-75 text-[--color-test] rounded-full p-3 transition-all duration-300 ease-in-out">
-            <ChevronLeft className="h-6 w-6" />
+          <CarouselPrevious className="absolute left-2 sm:left-4 md:left-8 top-1/2 -translate-y-1/2 bg-[--color-test] bg-opacity-50 hover:bg-opacity-75 text-black rounded-full p-2 sm:p-3 transition-all duration-300 ease-in-out">
+            <ChevronLeft className="h-4 w-4 sm:h-6 sm:w-6" />
           </CarouselPrevious>
-          <CarouselNext className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 bg-blue-600 bg-opacity-50 hover:bg-opacity-75 text-[--color-test] rounded-full p-3 transition-all duration-300 ease-in-out">
-            <ChevronRight className="h-6 w-6" />
+          <CarouselNext className="absolute right-2 sm:right-4 md:right-8 top-1/2 -translate-y-1/2 bg-[--color-test] bg-opacity-50 hover:bg-opacity-75 text-black rounded-full p-2 sm:p-3 transition-all duration-300 ease-in-out">
+            <ChevronRight className="h-4 w-4 sm:h-6 sm:w-6" />
           </CarouselNext>
         </Carousel>
       </div>
