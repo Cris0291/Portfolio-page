@@ -26,7 +26,7 @@ const Footer = () => {
     <motion.footer
       className="fixed bottom-0 left-0 right-0 bg-[--color-test] text-black p-4 flex flex-col items-center z-50 overflow-hidden"
       initial={{ height: "60px" }}
-      animate={{ height: isHovered ? contentHeight : "60px" }}
+      animate={{ height: isHovered ? "200px" : "60px" }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
       transition={{

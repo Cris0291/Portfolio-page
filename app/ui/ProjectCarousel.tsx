@@ -5,7 +5,13 @@ import type React from "react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { ExternalLink, Github, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  ExternalLink,
+  Github,
+  ChevronLeft,
+  ChevronRight,
+  Send,
+} from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -32,10 +38,9 @@ const projects: Project[] = [
     id: 1,
     title: "E-commerce Platform",
     description:
-      "A full-stack e-commerce solution featuring clean architecture with ASP.Net Core and React",
-    imageUrl:
-      "https://images.unsplash.com/photo-1517964603305-11c0f6f66012?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    technologies: ["ASP.Net Core", "Entity Framework", "SQL", "React"],
+      "A full-stack e-commerce solution using clean architecture with ASP.Net Core and React",
+    imageUrl: "/ecommerce.png",
+    technologies: ["ASP.Net Core", "Entity Framework", "SQL", "React", "C#"],
     liveUrl: "https://example.com",
     githubUrl: "https://github.com/Cris0291/RunApp-Eshop",
     comingSoon: false,
@@ -44,8 +49,7 @@ const projects: Project[] = [
     id: 2,
     title: "Tetris Game",
     description: "A classic game made with c++ and raylib",
-    imageUrl:
-      "https://images.unsplash.com/photo-1517964603305-11c0f6f66012?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    imageUrl: "/Tetris.png",
     technologies: ["C++", "Raylib"],
     liveUrl: "https://example.com",
     githubUrl: "https://github.com/Cris0291/Tetris-Game-Cpp",
@@ -53,25 +57,23 @@ const projects: Project[] = [
   },
   {
     id: 3,
-    title: "Ai Task Management System",
+    title: "Real Time Messaging System",
     description:
-      "A modular monolith project management tool built with ASP.Net Core and React",
-    imageUrl:
-      "https://images.unsplash.com/photo-1517964603305-11c0f6f66012?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    technologies: ["ASP.Net Core", "Entity Framework", "SQL", "React"],
+      "A modular monolith real time messaging system also with management tool capabilities built with ASP.Net Core and React",
+    imageUrl: "/soon.jpg",
+    technologies: ["ASP.Net Core", "Entity Framework", "SQL", "React", "C#"],
     liveUrl: "https://example.com",
-    githubUrl: "https://github.com/yourusername/project3",
+    githubUrl: "https://github.com/Cris0291/Babylon",
     comingSoon: true,
   },
   {
     id: 4,
     title: "Json Parser",
-    description: "A josn parser project in c++",
-    imageUrl:
-      "https://images.unsplash.com/photo-1517964603305-11c0f6f66012?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    description: "A json parser library made in c++",
+    imageUrl: "/soon.jpg",
     technologies: ["C++"],
     liveUrl: "https://example.com",
-    githubUrl: "https://github.com/yourusername/project3",
+    githubUrl: "https://github.com/Cris0291/Json-Parser-Cpp",
     comingSoon: true,
   },
 ];
@@ -168,7 +170,7 @@ const ProjectCarousel: React.FC = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.6 }}
                       >
-                        {project.liveUrl && (
+                        {!project.comingSoon ? (
                           <Button
                             asChild
                             className="bg-[--color-test] text-black hover:bg-white px-4 sm:px-6 py-2 sm:py-3 rounded-md transition-all duration-300 ease-in-out transform hover:scale-105 w-full sm:w-auto text-sm sm:text-base"
@@ -187,25 +189,29 @@ const ProjectCarousel: React.FC = () => {
                               <span className="inline-block">Live Demo</span>
                             </motion.a>
                           </Button>
-                        )}
-                        {project.githubUrl && (
-                          <Button
-                            asChild
-                            variant="outline"
-                            className="bg-[--color-test] text-black hover:bg-white px-4 sm:px-6 py-2 sm:py-3 rounded-md transition-all duration-300 ease-in-out transform hover:scale-105 w-full sm:w-auto text-sm sm:text-base"
-                          >
-                            <motion.a
-                              href={project.githubUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.95 }}
-                            >
-                              <Github size={16} className="mr-2 inline-block" />
-                              <span className="inline-block">View Code</span>
-                            </motion.a>
+                        ) : (
+                          <Button className="bg-[--color-test] text-black hover:bg-white px-4 sm:px-6 py-2 sm:py-3 rounded-md transition-all duration-300 ease-in-out transform hover:scale-105 w-full sm:w-auto text-sm sm:text-base">
+                            <Send size={16} className="mr-2 inline-block" />
+                            <span className="inline-block">Coming Soon</span>
                           </Button>
                         )}
+
+                        <Button
+                          asChild
+                          variant="outline"
+                          className="bg-[--color-test] text-black hover:bg-white px-4 sm:px-6 py-2 sm:py-3 rounded-md transition-all duration-300 ease-in-out transform hover:scale-105 w-full sm:w-auto text-sm sm:text-base"
+                        >
+                          <motion.a
+                            href={project.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            <Github size={16} className="mr-2 inline-block" />
+                            <span className="inline-block">View Code</span>
+                          </motion.a>
+                        </Button>
                       </motion.div>
                     </div>
                   </motion.div>
@@ -213,10 +219,10 @@ const ProjectCarousel: React.FC = () => {
               ))}
             </AnimatePresence>
           </CarouselContent>
-          <CarouselPrevious className="absolute left-2 sm:left-4 md:left-8 top-1/2 -translate-y-1/2 bg-[--color-test] bg-opacity-50 hover:bg-opacity-75 text-black rounded-full p-2 sm:p-3 transition-all duration-300 ease-in-out">
+          <CarouselPrevious className="absolute left-2 sm:left-4 md:left-8 top-1/2 -translate-y-1/2 bg-[--color-test] bg-opacity-50 hover:bg-opacity-75 text-[--color-test] rounded-full p-2 sm:p-3 transition-all duration-300 ease-in-out">
             <ChevronLeft className="h-4 w-4 sm:h-6 sm:w-6" />
           </CarouselPrevious>
-          <CarouselNext className="absolute right-2 sm:right-4 md:right-8 top-1/2 -translate-y-1/2 bg-[--color-test] bg-opacity-50 hover:bg-opacity-75 text-black rounded-full p-2 sm:p-3 transition-all duration-300 ease-in-out">
+          <CarouselNext className="absolute right-2 sm:right-4 md:right-8 top-1/2 -translate-y-1/2 bg-[--color-test] bg-opacity-50 hover:bg-opacity-75 text-[--color-test] rounded-full p-2 sm:p-3 transition-all duration-300 ease-in-out">
             <ChevronRight className="h-4 w-4 sm:h-6 sm:w-6" />
           </CarouselNext>
         </Carousel>
