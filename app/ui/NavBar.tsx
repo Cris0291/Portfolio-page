@@ -31,7 +31,7 @@ const NavBar = ({
 }: {
   scrollToSection: (section: string) => void;
 }) => {
-  const [currentColor, setCurrentColor] = useState(colors[0]);
+  const [__, setCurrentColor] = useState(colors[0]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const changeColor = (color: (typeof colors)[0]) => {
@@ -149,7 +149,7 @@ const NavBar = ({
               <FaGithub className="text-[--color-test] hover:text-white text-2xl transition duration-300" />
             </Link>
             <Link
-              href="https://www.linkedin.com/in/cristian-blanco-64142a191/"
+              href="https://www.linkedin.com/in/cristian-blanco-garcia/"
               target="_blank"
               rel="noopener noreferrer"
             >

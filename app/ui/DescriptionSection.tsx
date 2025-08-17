@@ -30,16 +30,17 @@ export default function DescriptionSection() {
                 className="space-y-4"
               >
                 <p className="text-lg leading-relaxed text-gray-300">
-                  Hello! My name is Cristian, I'm a developer with a passion for
-                  building amazing apps that deliver real value. I specialize in
-                  C# and C++, with a strong focus on creating efficient,
-                  scalable solutions that drive user engagement and
+                  Hello! My name is Cristian, I{"'"}m a developer with a passion
+                  for building amazing apps that deliver real value. I
+                  specialize in C# and C++, with a strong focus on creating
+                  efficient, scalable solutions that drive user engagement and
                   satisfaction.
                 </p>
                 <p className="text-lg leading-relaxed text-gray-300">
-                  Whether it's designing user-friendly interfaces or optimizing
-                  complex systems behind the scenes, I love tackling challenges
-                  that push the boundaries of what technology can achieve.
+                  Whether it{"'"}s designing user-friendly interfaces or
+                  optimizing complex systems behind the scenes, I love tackling
+                  challenges that push the boundaries of what technology can
+                  achieve.
                 </p>
               </motion.div>
             </div>

@@ -48,7 +48,7 @@ export default function HeroSection() {
               transition={{ delay: 0.6, duration: 0.6 }}
               className="text-xl sm:text-2xl leading-relaxed text-gray-300"
             >
-              I'm a passionate C#/C++ developer creating amazing apps.
+              I{"'"}m a passionate C#/C++ developer creating amazing apps.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 20 }}

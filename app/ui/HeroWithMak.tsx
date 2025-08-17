@@ -72,8 +72,8 @@ export default function HeroSection() {
           </h1>
           <div className="relative">
             <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl leading-tight font-light text-gray-300">
-              Hello! I'm Cristian, a passionate developer specializing in C# and
-              C++. I create efficient, scalable solutions that drive user
+              Hello! I{"'"}m Cristian, a passionate developer specializing in C#
+              and C++. I create efficient, scalable solutions that drive user
               engagement and satisfaction.
             </p>
           </div>

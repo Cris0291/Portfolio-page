@@ -31,6 +31,7 @@ interface Project {
   liveUrl?: string;
   githubUrl?: string;
   comingSoon: boolean;
+  library: boolean;
 }
 
 const projects: Project[] = [
@@ -41,45 +42,57 @@ const projects: Project[] = [
       "A full-stack e-commerce solution using clean architecture with ASP.Net Core and React",
     imageUrl: "/ecommerce.png",
     technologies: ["ASP.Net Core", "Entity Framework", "SQL", "React", "C#"],
-    liveUrl: "https://example.com",
+    liveUrl: "https://run-app-eshop-9sho.vercel.app/",
     githubUrl: "https://github.com/Cris0291/RunApp-Eshop",
     comingSoon: false,
+    library: false,
   },
   {
     id: 2,
     title: "Tetris Game",
-    description: "A classic game made with c++ and raylib",
+    description: "A classic game made with C++ and Raylib",
     imageUrl: "/Tetris.png",
     technologies: ["C++", "Raylib"],
     liveUrl: "https://example.com",
     githubUrl: "https://github.com/Cris0291/Tetris-Game-Cpp",
     comingSoon: false,
+    library: true,
   },
   {
     id: 3,
     title: "Real Time Messaging System",
     description:
-      "A modular monolith real time messaging system also with management tool capabilities built with ASP.Net Core and React",
+      "A modular monolith real time messaging system featuring SiganlR built with ASP.Net Core and React",
     imageUrl: "/soon.jpg",
-    technologies: ["ASP.Net Core", "Entity Framework", "SQL", "React", "C#"],
+    technologies: [
+      "ASP.Net Core",
+      "Entity Framework",
+      "SQL",
+      "React",
+      "C#",
+      "SignalR",
+    ],
     liveUrl: "https://example.com",
     githubUrl: "https://github.com/Cris0291/Babylon",
     comingSoon: true,
+    library: false,
   },
   {
     id: 4,
     title: "Json Parser",
-    description: "A json parser library made in c++",
-    imageUrl: "/soon.jpg",
-    technologies: ["C++"],
+    description:
+      "A json parser library made in C++. Inspired in C# System.Text.Json parse complex types with just one line of code",
+    imageUrl: "/JSON.png",
+    technologies: ["C++", "CMake"],
     liveUrl: "https://example.com",
     githubUrl: "https://github.com/Cris0291/Json-Parser-Cpp",
-    comingSoon: true,
+    comingSoon: false,
+    library: true,
   },
 ];
 
 const ProjectCarousel: React.FC = () => {
-  const [isMobile, setIsMobile] = useState(false);
+  const [__, setIsMobile] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -171,24 +184,28 @@ const ProjectCarousel: React.FC = () => {
                         transition={{ delay: 0.6 }}
                       >
                         {!project.comingSoon ? (
-                          <Button
-                            asChild
-                            className="bg-[--color-test] text-black hover:bg-white px-4 sm:px-6 py-2 sm:py-3 rounded-md transition-all duration-300 ease-in-out transform hover:scale-105 w-full sm:w-auto text-sm sm:text-base"
-                          >
-                            <motion.a
-                              href={project.liveUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.95 }}
+                          !project.library ? (
+                            <Button
+                              asChild
+                              className="bg-[--color-test] text-black hover:bg-white px-4 sm:px-6 py-2 sm:py-3 rounded-md transition-all duration-300 ease-in-out transform hover:scale-105 w-full sm:w-auto text-sm sm:text-base"
                             >
-                              <ExternalLink
-                                size={16}
-                                className="mr-2 inline-block"
-                              />
-                              <span className="inline-block">Live Demo</span>
-                            </motion.a>
-                          </Button>
+                              <motion.a
+                                href={project.liveUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <ExternalLink
+                                  size={16}
+                                  className="mr-2 inline-block"
+                                />
+                                <span className="inline-block">Live Demo</span>
+                              </motion.a>
+                            </Button>
+                          ) : (
+                            ""
+                          )
                         ) : (
                           <Button className="bg-[--color-test] text-black hover:bg-white px-4 sm:px-6 py-2 sm:py-3 rounded-md transition-all duration-300 ease-in-out transform hover:scale-105 w-full sm:w-auto text-sm sm:text-base">
                             <Send size={16} className="mr-2 inline-block" />
@@ -209,7 +226,11 @@ const ProjectCarousel: React.FC = () => {
                             whileTap={{ scale: 0.95 }}
                           >
                             <Github size={16} className="mr-2 inline-block" />
-                            <span className="inline-block">View Code</span>
+                            <span className="inline-block">
+                              {project.library
+                                ? "View Code and Read Documentation"
+                                : "View Code"}
+                            </span>
                           </motion.a>
                         </Button>
                       </motion.div>

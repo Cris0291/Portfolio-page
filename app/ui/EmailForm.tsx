@@ -64,7 +64,7 @@ const EmailForm: React.FC = () => {
 
   const size = isHovered ? 400 : 40;
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
+  const onSubmit: SubmitHandler<Inputs> = () => {
     emailjs
       .sendForm(
         process.env.NEXT_PUBLIC_SERVICE_ID ?? "",
@@ -79,7 +79,7 @@ const EmailForm: React.FC = () => {
           reset();
           toast.success("Email was successfully sent");
         },
-        (error) => {
+        () => {
           toast.error("Email was not sent. Something unexpected happened");
         }
       );

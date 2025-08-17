@@ -75,7 +75,7 @@ export default function AboutSection({
             asChild
             className="bg-white text-black font-semibold py-4 sm:py-5 px-6 rounded-full hover:bg-opacity-90 transition duration-300 text-sm sm:text-base"
           >
-            <Link href="/dtest.pdf">Download CV</Link>
+            <Link href="/CV.pdf">Download CV</Link>
           </Button>
           <Button
             className="bg-transparent border-2 border-white text-white font-semibold py-4 sm:py-5 px-6 rounded-full hover:bg-white hover:text-black transition duration-300 text-sm sm:text-base"

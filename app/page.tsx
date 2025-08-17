@@ -1,7 +1,6 @@
 "use client";
 
 import NavBar from "./ui/NavBar";
-import { useEffect, useState } from "react";
 import HeroWithMask from "./ui/HeroWithMak";
 import Footer from "./ui/Footer";
 import EmailForm from "./ui/EmailForm";

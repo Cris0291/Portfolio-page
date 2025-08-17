@@ -43,7 +43,7 @@ const Footer = () => {
             className="border border-black mb-2 sm:mb-0"
             asChild
           >
-            <Link href="/dtest.pdf">Download CV</Link>
+            <Link href="/CV.pdf">Download CV</Link>
           </Button>
 
           <motion.div
